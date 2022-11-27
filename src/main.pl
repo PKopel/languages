@@ -3,11 +3,18 @@
 :- use_module(utils).
 :- use_module(languages).
 
-execute :-
-	language_is(X), !,
-	write('The best language might be '), write(X), nl,
-	clear_facts.
+respond([]):-
+	write("I cannot guess which language would work best."), nl.
+
+respond([H|T]) :-
+	write("I could not find language matching requirements"), nl,
+	write("The best matches were: "), write([H|T]), nl.
+
+respond(Lang) :-
+	write("The best language might be "), write(Lang), nl.
+
 
 execute :-
-	write('\nI cannot guess '),
-	write('which language would work best.\n\n'), clear_facts.
+	language_is(X), !,
+	respond(X),
+	clear_facts.
