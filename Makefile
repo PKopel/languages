@@ -1,5 +1,5 @@
 GOAL="execute"
-MAIN_FILE=languages.pl
+MAIN_FILE=main.pl
 EXEC_FILE=languages.o
 BUILD_DIR=build
 SRC_DIR=src
