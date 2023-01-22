@@ -194,28 +194,25 @@ join_tree = InferenceController.apply(bbn)
 # User interaction
 ################################################################
 
-
-HEADER = '\033[95m'
-OKBLUE = '\033[94m'
-OKCYAN = '\033[96m'
 OKGREEN = '\033[92m'
-WARNING = '\033[93m'
-FAIL = '\033[91m'
 ENDC = '\033[0m'
 BOLD = '\033[1m'
-UNDERLINE = '\033[4m'
 
 
 selected_traits = {}
 
 
-def get_value(trait, values):
-    print(BOLD + f'select value for {trait}' + ENDC)
+def print_options(msg, values):
+    print(BOLD + msg + ENDC)
     for i, val in enumerate(values):
         print(f'{i}: {val}')
     print(
         BOLD + f'enter number or \'e\' to exit: ' + ENDC, end='', flush=True)
-    input = sys.stdin.readline()[0]
+    return sys.stdin.readline()[0]
+
+
+def get_value(trait, values):
+    input = print_options(f'select value for {trait}', values)
     if input == 'e':
         return False
     value = values[int(input)]
@@ -230,24 +227,16 @@ def get_value(trait, values):
 
 def get_traits(trait_dict):
     input = ''
-    dict_len = len(trait_dict)
-    dict_keys = list(trait_dict.keys())
-    while dict_len > 0:
+    while len(trait_dict) > 0:
+        dict_keys = list(trait_dict.keys())
         print(f'{OKGREEN}selected traits:{ENDC} {selected_traits}')
-        print(BOLD + f'select next trait' + ENDC)
-        for i, val in enumerate(dict_keys):
-            print(f'{i}: {val}')
-        print(
-            BOLD + f'enter number or \'e\' to exit: ' + ENDC, end='', flush=True)
-        input = sys.stdin.readline()[0]
+        input = print_options('select next trait', dict_keys)
         if input == 'e':
             break
         trait = dict_keys[int(input)]
         used = get_value(trait, trait_dict[trait])
         if used:
             del trait_dict[trait]
-            dict_keys = list(trait_dict.keys())
-            dict_len = len(trait_dict)
 
 
 def main():
