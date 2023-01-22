@@ -1,3 +1,3 @@
 # languages
 
-Simple system advising on choice of programming language given project characteristics, made for expert systems course.
+Simple systems advising on choice of programming language given project characteristics, made for expert systems course.

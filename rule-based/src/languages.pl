@@ -1,6 +1,5 @@
 :- module(languages,[language_is/1]).
 
-:- use_module(utils).
 :- use_module(symptoms).
 
 language_is(Langs) :-
