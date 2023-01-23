@@ -109,7 +109,8 @@ purpose_by_speed_and_mem = [
 ]
 
 full_arrays = []
-symptoms = [environment_list, purpose_list, typing_list, gc_list]
+symptoms = [system_type_list, environment_list,
+            purpose_list, typing_list, gc_list]
 
 for symptom in symptoms:
     full_array = None
@@ -127,11 +128,12 @@ for symptom in symptoms:
                 (full_array, np.reshape(current, (1, current.shape[0]))), axis=0)
     full_arrays.append(full_array)
 
-final_probs = np.reshape(np.einsum('ip,jp,kp,lp->ijklp',
+final_probs = np.reshape(np.einsum('ip,jp,kp,lp,np->ijklnp',
                                    full_arrays[0],
                                    full_arrays[1],
                                    full_arrays[2],
-                                   full_arrays[3]), (-1,))
+                                   full_arrays[3],
+                                   full_arrays[4]), (-1,))
 
 ################################################################
 # Graph
@@ -181,6 +183,7 @@ bbn = Bbn()\
     .add_node(typing)\
     .add_node(gc)\
     .add_edge(Edge(system_type, environment, EdgeType.DIRECTED))\
+    .add_edge(Edge(system_type, language, EdgeType.DIRECTED))\
     .add_edge(Edge(environment, language, EdgeType.DIRECTED))\
     .add_edge(Edge(memory, purpose, EdgeType.DIRECTED))\
     .add_edge(Edge(speed, purpose, EdgeType.DIRECTED))\
